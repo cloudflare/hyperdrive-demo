@@ -13,7 +13,7 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
   {
     rel: "icon",
-    href: `data:image/svg+xml;utf8,<svg xmlns="http://w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⚡</text></svg>`,
+    href: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 16 16'><text x='0' y='14'>🧪</text></svg>",
   },
 ];
 
