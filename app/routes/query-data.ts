@@ -1,6 +1,17 @@
 import { json, type LoaderArgs } from "@remix-run/cloudflare";
 
-interface APIResponse {
+export interface LatencyResponse {
+  sqc: {
+    query: number,
+    connect: number
+  },
+  direct: {
+    query: number,
+    connect: number
+  }
+}
+
+interface QueryAPIResponse {
   sqc: DBResult;
   direct: DBResult;
 }
@@ -19,8 +30,8 @@ export async function loader({ params }: LoaderArgs) {
     return json({ err: "failed to fetch" }, { status: 500 });
   }
 
-  let data: APIResponse = await resp.json();
-  let latencies = {
+  let data: QueryAPIResponse = await resp.json();
+  let latencies: LatencyResponse = {
     sqc: {
       query: data.sqc.queryLatencyMs,
       connect: data.sqc.connectionLatencyMs,
@@ -30,5 +41,6 @@ export async function loader({ params }: LoaderArgs) {
       connect: data.direct.connectionLatencyMs,
     },
   };
+
   return json(latencies);
 }

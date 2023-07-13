@@ -1,9 +1,14 @@
 import { useFetcher } from "@remix-run/react";
+import type { LatencyResponse } from "./query-data";
 
 export default function Index() {
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<LatencyResponse>();
 
-  function formatMultiplier(sqc: number, direct: number): string {
+  function formatMultiplier(sqc?: number, direct?: number): string {
+    if (!sqc || !direct) {
+      return "";
+    }
+
     let m = direct / sqc;
 
     if (m < 1) {
