@@ -35,7 +35,7 @@ export default function Index() {
   return (
     <div className="container mx-auto max-w-lg">
       <div className="grid place-items-center pb-8">
-        <h1 className="uppercase font-extrabold text-2xl pt-4 text-slate-800">
+        <h1 className="uppercase text-center font-extrabold text-2xl pt-4 text-slate-800">
           Cloudflare Query Cache Demo
         </h1>
         <p className="text-center text-md italic pt-2 font-light">
