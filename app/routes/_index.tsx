@@ -30,10 +30,10 @@ export default function Index() {
   return (
     <div className="container mx-auto max-w-lg">
       <div className="grid place-items-center pb-8">
-        <h1 className="uppercase font-extrabold text-2xl py-4 text-slate-800">
+        <h1 className="uppercase font-extrabold text-2xl pt-4 text-slate-800">
           Query Cache Demo
         </h1>
-        <p className="text-center text-md pt-2 font-light">
+        <p className="text-center text-md italic pt-2 font-light">
           Makes your regional database feel like it's globally distributed
         </p>
       </div>
@@ -56,13 +56,13 @@ export default function Index() {
           <p className="text-6xl font-bold text-orange-600 place-content-center">
             {fetcher.data?.direct?.query || 0} ms
           </p>
-          <small className="font-medium	block pt-2">
+          <small className="font-block pt-2">
             Connect: {fetcher.data?.direct?.connect || 0} ms
           </small>
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 place-content-center justify-items-center items-center pt-8 h-12">
-        <p className="font-medium">
+        <p className="font-medium text-xl">
           {formatMultiplier(
             fetcher.data?.sqc?.query,
             fetcher.data?.direct?.query
