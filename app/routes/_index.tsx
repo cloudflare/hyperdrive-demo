@@ -67,7 +67,7 @@ export default function Index() {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 place-content-center justify-items-center items-center pt-8 h-12">
-        <p className="font-medium text-xl">
+        <p className="font-medium text-xl h-8">
           {formatMultiplier(
             fetcher.data?.sqc?.query,
             fetcher.data?.direct?.query
