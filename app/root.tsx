@@ -13,8 +13,7 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
   {
     rel: "icon",
-    href: "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2016%2016'%3E%3Ctext%20x='0'%20y='14'%3E🦄%3C/text%3E%3C/svg%3E",
-    type: "image/svg+xml",
+    href: `data:image/svg+xml;utf8,<svg xmlns="http://w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">⚡</text></svg>`,
   },
 ];
 
