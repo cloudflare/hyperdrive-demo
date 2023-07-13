@@ -2,13 +2,13 @@ import { json, type LoaderArgs } from "@remix-run/cloudflare";
 
 export interface LatencyResponse {
   sqc: {
-    query: number,
-    connect: number
-  },
+    query: number;
+    total: number;
+  };
   direct: {
-    query: number,
-    connect: number
-  }
+    query: number;
+    total: number;
+  };
 }
 
 interface QueryAPIResponse {
@@ -18,7 +18,7 @@ interface QueryAPIResponse {
 
 interface DBResult {
   query: string;
-  connectionLatencyMs: number;
+  totalLatencyMs: number;
   queryLatencyMs: number;
   rows: any;
 }
@@ -34,11 +34,11 @@ export async function loader({ params }: LoaderArgs) {
   let latencies: LatencyResponse = {
     sqc: {
       query: data.sqc.queryLatencyMs,
-      connect: data.sqc.connectionLatencyMs,
+      total: data.sqc.totalLatencyMs,
     },
     direct: {
       query: data.direct.queryLatencyMs,
-      connect: data.direct.connectionLatencyMs,
+      total: data.direct.totalLatencyMs,
     },
   };
 
