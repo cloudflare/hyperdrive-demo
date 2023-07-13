@@ -7,6 +7,7 @@ interface APIResponse {
 
 interface DBResult {
   query: string;
+  connectionLatencyMs: number;
   queryLatencyMs: number;
   rows: any;
 }
@@ -30,8 +31,8 @@ export async function loader({ params }: LoaderArgs) {
 
   let data: APIResponse = await resp.json();
   let latencies = {
-    sqc: data.sqc.queryLatencyMs,
-    direct: data.direct.queryLatencyMs,
+    sqc: { query: data.sqc.queryLatencyMs, connect: data.sqc.connectionLatencyMs },
+    direct: { query: data.direct.queryLatencyMs, connect: data.direct.connectionLatencyMs },
     multiplier: formatMultiplier(
       data.sqc.queryLatencyMs,
       data.direct.queryLatencyMs

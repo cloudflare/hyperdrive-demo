@@ -23,18 +23,22 @@ export default function Index() {
             Query Cache
           </h2>
           <p className="text-6xl text-orange-600 place-content-center">
-            {fetcher.data?.sqc || 0}
+            {fetcher.data?.sqc?.query || 0} ms
           </p>
-          <small className="block py-4">milliseconds</small>
+          <small className="block pt-2">
+            connect: {fetcher.data?.sqc?.connect || 0} ms
+          </small>
         </div>
         <div>
           <h2 className="uppercase font-extrabold text-2xl py-4 text-blue-800">
             Direct
           </h2>
           <p className="text-6xl text-orange-600 place-content-center">
-            {fetcher.data?.direct || 0}
+            {fetcher.data?.direct?.query || 0} ms
           </p>
-          <small className="block py-4">milliseconds</small>
+          <small className="block pt-2">
+            connect: {fetcher.data?.direct?.connect || 0} ms
+          </small>
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4 place-content-center justify-items-center items-center h-12">
