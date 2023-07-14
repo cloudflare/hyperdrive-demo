@@ -1,34 +1,52 @@
-import { useFetcher } from "@remix-run/react";
+import { useFetcher, useRevalidator } from "@remix-run/react";
+import { useEffect } from "react";
 import type { LatencyResponse } from "./query-data";
+
+const REFRESH_INTERVAL_MS = 2 * 1000;
+
+export const useRefreshOnInterval = (interval: number) => {
+  let { revalidate } = useRevalidator();
+
+  useEffect(
+    function onInterval() {
+      let id = setInterval(revalidate, interval);
+      return () => clearInterval(id);
+    },
+    [revalidate]
+  );
+};
+
+const formatMultiplier = (sqc?: number, direct?: number): string => {
+  if (!sqc || !direct) {
+    return "";
+  }
+
+  let m = direct / sqc;
+
+  if (m < 1) {
+    m = sqc / direct;
+    return `${m.toPrecision(2)}x slower`;
+  }
+
+  if (isNaN(m)) {
+    return "N/A";
+  }
+
+  return `${m.toPrecision(2)}x faster`;
+};
 
 export default function Index() {
   const fetcher = useFetcher<LatencyResponse>();
 
-  function formatMultiplier(sqc?: number, direct?: number): string {
-    if (!sqc || !direct) {
-      return "";
-    }
-
-    let m = direct / sqc;
-
-    if (m < 1) {
-      m = sqc / direct;
-      return `${m.toPrecision(2)}x slower`;
-    }
-
-    if (isNaN(m)) {
-      return "N/A";
-    }
-
-    return `${m.toPrecision(2)}x faster`;
-  }
+  // Revalidate at a fixed interval
+  useRefreshOnInterval(REFRESH_INTERVAL_MS);
 
   const queryButtonText =
     fetcher.state === "submitting" || fetcher.state === "loading"
-      ? "Running Query..."
-      : "Run Query";
+      ? "Running Queries..."
+      : "Compare Latency";
 
-  function refreshData() {
+  function loadData() {
     fetcher.load("/query-data");
   }
 
@@ -74,7 +92,7 @@ export default function Index() {
           )}
         </p>
         <button
-          onClick={refreshData}
+          onClick={loadData}
           className="object-center bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-56 max-w-md"
         >
           {queryButtonText}
