@@ -2,14 +2,26 @@ import { useFetcher, useRevalidator } from "@remix-run/react";
 import { useEffect } from "react";
 import type { LatencyResponse } from "./query-data";
 
-const REFRESH_INTERVAL_MS = 2 * 1000;
+// We should automatically refresh a limited number of times.
+const REFRESH_INTERVAL_MS = 1 * 1000;
+const MAX_ITERS = 10;
+let ITERS = 0;
 
 export const useRefreshOnInterval = (interval: number) => {
   let { revalidate } = useRevalidator();
 
+  const reval = () => {
+    if (ITERS >= MAX_ITERS) {
+      return;
+    }
+
+    ITERS++;
+    revalidate();
+  };
+
   useEffect(
     function onInterval() {
-      let id = setInterval(revalidate, interval);
+      let id = setInterval(reval, interval);
       return () => clearInterval(id);
     },
     [revalidate]
@@ -47,6 +59,7 @@ export default function Index() {
       : "Compare Latency";
 
   function loadData() {
+    ITERS = 0;
     fetcher.load("/query-data");
   }
 
