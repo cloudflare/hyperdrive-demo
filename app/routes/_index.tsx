@@ -54,7 +54,9 @@ export default function Index() {
   useRefreshOnInterval(REFRESH_INTERVAL_MS);
 
   const queryButtonText =
-    fetcher.state === "submitting" || fetcher.state === "loading"
+    fetcher.state === "submitting" ||
+    fetcher.state === "loading" ||
+    (ITERS < MAX_ITERS && ITERS !== 0)
       ? "Running Queries..."
       : "Compare Latency";
 
