@@ -24,7 +24,7 @@ export const useRefreshOnInterval = (interval: number) => {
       let id = setInterval(reval, interval);
       return () => clearInterval(id);
     },
-    [revalidate]
+    [revalidate],
   );
 };
 
@@ -103,7 +103,7 @@ export default function Index() {
         <p className="font-medium text-2xl h-8">
           {formatMultiplier(
             fetcher.data?.sqc?.total,
-            fetcher.data?.direct?.total
+            fetcher.data?.direct?.total,
           )}
         </p>
         <button
