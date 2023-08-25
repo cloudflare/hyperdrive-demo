@@ -169,17 +169,6 @@ export default function Index() {
           </div>
           {results.map((result, i) => {
             const maxValue = Math.max(result.direct.total, result.sqc.total);
-            const directTotal = Math.round(
-              (result.direct.total / maxValue) * 100,
-            );
-            const sqcTotal = Math.round((result.sqc.total / maxValue) * 100);
-            const directQueryTime = Math.round(
-              (result.direct.query / maxValue) * 100,
-            );
-            const sqcQueryTime = Math.round(
-              (result.direct.query / maxValue) * 100,
-            );
-            const now = new Date();
 
             return (
               <div
@@ -201,6 +190,11 @@ export default function Index() {
                     color="orange-600"
                   />
                   {formatMultiplier(result.sqc.total, result.direct.total)}
+
+                  {/* hack for fancy tailwind color optimizer */}
+                  <span className="bg-orange-600" />
+                  <span className="bg-zinc-600" />
+                  <span className="opacity-0" />
                 </div>
               </div>
             );

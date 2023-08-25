@@ -54,6 +54,7 @@ export const LatencyBar2 = ({ totalMs, maxValue, label, color }: Props) => {
   }, [width]);
 
   // const labelOpacity = Math.round((width / maxWidth) * 100) / 100;
+  const labelVisible = width >= maxWidth - 5;
 
   return (
     <div className="mb-2">
@@ -62,13 +63,20 @@ export const LatencyBar2 = ({ totalMs, maxValue, label, color }: Props) => {
           className={`bg-${color} rounded mb-2 flex justify-between items-center`}
           style={{
             width: `${width}%`,
+            height: "30px",
           }}
         >
           <div className="text-sm text-white p-1 ml-2">
             {totalMs}
             <span className="ml-1">ms</span>
           </div>
-          <div className={`text-xs font-bold mr-2`}>{label}</div>
+          <div
+            className={`transition-opacity opacity-${
+              labelVisible ? 100 : 0
+            } text-xs font-bold mr-2`}
+          >
+            {label}
+          </div>
         </div>
       </div>
     </div>
