@@ -2,10 +2,12 @@ import { useFetcher, useRevalidator } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import type { LatencyResponse } from "./query-data";
 import { CloudflareLogo } from "~/components/CloudflareLogo";
+import { LatencyBar, LatencyBar2 } from "~/components/LatencyBar";
 
 // We should automatically refresh a limited number of times.
 const REFRESH_INTERVAL_MS = 1 * 1000;
 const MAX_ITERS = 10;
+const MAX_REQUESTS = 4;
 let ITERS = 0;
 
 const formatMultiplier = (sqc?: number, direct?: number) => {
@@ -31,6 +33,17 @@ const formatMultiplier = (sqc?: number, direct?: number) => {
     );
   }
 
+  if (m === 1) {
+    return (
+      <div className="text-xs">
+        Using Cloudflare Query Cache is
+        <span className="text-sm font-bold text-blue-400 ml-1">
+          the same speed
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="text-xs">
       Using Cloudflare Query Cache is
@@ -40,8 +53,6 @@ const formatMultiplier = (sqc?: number, direct?: number) => {
     </div>
   );
 };
-
-const MAX_REQUESTS = 3;
 
 const Header = () => {
   return (
@@ -157,14 +168,16 @@ export default function Index() {
             </button>
           </div>
           {results.map((result, i) => {
-            const range = Math.max(result.direct.total, result.sqc.total);
-            const directTotal = Math.round((result.direct.total / range) * 100);
-            const sqcTotal = Math.round((result.sqc.total / range) * 100);
+            const maxValue = Math.max(result.direct.total, result.sqc.total);
+            const directTotal = Math.round(
+              (result.direct.total / maxValue) * 100,
+            );
+            const sqcTotal = Math.round((result.sqc.total / maxValue) * 100);
             const directQueryTime = Math.round(
-              (result.direct.query / range) * 100,
+              (result.direct.query / maxValue) * 100,
             );
             const sqcQueryTime = Math.round(
-              (result.direct.query / range) * 100,
+              (result.direct.query / maxValue) * 100,
             );
             const now = new Date();
 
@@ -175,42 +188,18 @@ export default function Index() {
                 className="bg-zinc-900 rounded my-2 p-3 flex flex-row justify-between"
               >
                 <div className="grow">
-                  <div className="mb-4">
-                    <div className="text-xs font-bold mb-1">
-                      Request Duration Directly to Origin
-                    </div>
-                    <div
-                      className="bg-gray-600 rounded mb-2"
-                      style={{ width: `${directTotal}%` }}
-                    >
-                      <div className="text-sm text-white p-1 ml-2">
-                        {result.direct.total}
-                        <span className="ml-1">ms</span>
-                      </div>
-                    </div>
-                    <div
-                      className="bg-gray-600 rounded h-1 mb-1"
-                      style={{ width: `${directQueryTime}%` }}
-                    ></div>
-                  </div>
-                  <div className="mb-2">
-                    <div className="text-xs font-bold mb-1">
-                      Request Duration with Query Cache
-                    </div>
-                    <div
-                      className="bg-orange-600 rounded mb-2"
-                      style={{ width: `${sqcTotal}%` }}
-                    >
-                      <div className="text-sm text-white p-1 ml-2">
-                        {result.sqc.total}
-                        <span className="ml-1">ms</span>
-                      </div>
-                    </div>
-                    <div
-                      className="bg-orange-600 rounded h-1 mb-1"
-                      style={{ width: `${sqcQueryTime}%` }}
-                    ></div>
-                  </div>
+                  <LatencyBar2
+                    totalMs={result.direct.total}
+                    maxValue={maxValue}
+                    label={"Direct to Origin"}
+                    color="zinc-600"
+                  />
+                  <LatencyBar2
+                    totalMs={result.sqc.total}
+                    maxValue={maxValue}
+                    label={"Query Cache"}
+                    color="orange-600"
+                  />
                   {formatMultiplier(result.sqc.total, result.direct.total)}
                 </div>
               </div>
