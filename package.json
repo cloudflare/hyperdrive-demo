@@ -10,6 +10,7 @@
     "pages:deploy": "npm run build && wrangler pages deploy ./public"
   },
   "dependencies": {
+    "@heroicons/react": "^2.0.18",
     "@remix-run/cloudflare": "^1.18.0",
     "@remix-run/cloudflare-pages": "^1.18.0",
     "@remix-run/css-bundle": "^1.18.0",

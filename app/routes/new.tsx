@@ -1,8 +1,10 @@
 import { useFetcher, useRevalidator } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import type { LatencyResponse } from "./query-data";
-import { CloudflareLogo } from "~/components/CloudflareLogo";
-import { LatencyBar, LatencyBar2 } from "~/components/LatencyBar";
+import { LatencyBar } from "~/components/LatencyBar";
+import { formatMultiplier } from "~/utils";
+import { Header } from "~/components/Header";
+import { RunResult } from "~/components/RunResult";
 
 // We should automatically refresh a limited number of times.
 const REFRESH_INTERVAL_MS = 1 * 1000;
@@ -10,91 +12,38 @@ const MAX_ITERS = 10;
 const MAX_REQUESTS = 4;
 let ITERS = 0;
 
-const formatMultiplier = (sqc?: number, direct?: number) => {
-  if (!sqc || !direct) {
-    return "";
-  }
-
-  let m = direct / sqc;
-
-  if (isNaN(m)) {
-    return <div>N/A</div>;
-  }
-
-  if (m < 1) {
-    m = sqc / direct;
-    return (
-      <div className="text-xs">
-        Using Cloudflare Query Cache is
-        <span className="text-sm font-bold text-red-500 ml-1">
-          {m.toPrecision(2)}x slower
-        </span>
-      </div>
-    );
-  }
-
-  if (m === 1) {
-    return (
-      <div className="text-xs">
-        Using Cloudflare Query Cache is
-        <span className="text-sm font-bold text-blue-400 ml-1">
-          the same speed
-        </span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="text-xs">
-      Using Cloudflare Query Cache is
-      <span className="text-sm font-bold text-green-500 ml-1">
-        {m.toPrecision(2)}x faster
-      </span>
-    </div>
-  );
-};
-
-const Header = () => {
-  return (
-    <div className="flex justify-between mb-5">
-      <CloudflareLogo />
-      {/* <div className="grid place-items-center pb-8">
-        <p className="text-center text-md italic pt-2 font-light">
-          Makes your regional database feel like it's globally distributed
-        </p>
-      </div> */}
-      <button>Dark</button>
-    </div>
-  );
-};
-
 const Marketing = () => {
   return (
-    <div>
-      <p className="text-xl pt-4 font-light">
-        Makes your regional database feel like it's globally distributed
-      </p>
-      <p className="text-sm pt-4 font-light">
-        Cloudflare Query Cache is an upcoming product that allows developers to
-        cache database reads (responses) within Cloudflare, directly improving
-        performance for subsequent reads and reducing load (and cost) on their
-        database.
-      </p>
-      <p className="text-sm pt-4 font-light">
-        SQC is not itself a hosted database solution, but enables developers to
-        build applications on top of Cloudflare Workers against their existing
-        databases without paying the "price" of connecting back to a centralized
-        (regional) database for every query. In other words: we make it easy for
-        developers to accelerate their existing databases via Cloudflare's
-        global network.
-      </p>
-      <p className="text-sm pt-4 font-light">
-        This paragraph explains what all the stuff on the right means. There's
-        some technical jargon but basically the one on top requests directly
-        from the origin. The one on the bottom is the good one because it uses
-        query cache. Just rambling here to make up more words.
-      </p>
-    </div>
+    <>
+      <h1 className="uppercase font-bold tracking-[0.5em] text-lg">
+        Query Cache
+      </h1>
+      <div>
+        <p className="text-xl pt-4 font-light">
+          Makes your regional database feel like it's globally distributed
+        </p>
+        <p className="text-sm pt-4 font-light">
+          Cloudflare Query Cache is an upcoming product that allows developers
+          to cache database reads (responses) within Cloudflare, directly
+          improving performance for subsequent reads and reducing load (and
+          cost) on their database.
+        </p>
+        <p className="text-sm pt-4 font-light">
+          SQC is not itself a hosted database solution, but enables developers
+          to build applications on top of Cloudflare Workers against their
+          existing databases without paying the "price" of connecting back to a
+          centralized (regional) database for every query. In other words: we
+          make it easy for developers to accelerate their existing databases via
+          Cloudflare's global network.
+        </p>
+        <p className="text-sm pt-4 font-light">
+          This paragraph explains what all the stuff on the right means. There's
+          some technical jargon but basically the one on top requests directly
+          from the origin. The one on the bottom is the good one because it uses
+          query cache. Just rambling here to make up more words.
+        </p>
+      </div>
+    </>
   );
 };
 
@@ -103,8 +52,6 @@ export default function Index() {
 
   const [results, setResults] = useState<LatencyResponse[]>([]);
   const [fetching, setFetching] = useState(false);
-  // const [timer, setTimer] = useState(0);
-  // const interval = useRef<ReturnType<typeof setInterval>>();
 
   const queryButtonText = fetching ? "Running Queries..." : "Compare Latency";
 
@@ -116,12 +63,6 @@ export default function Index() {
   function nextRequest() {
     if (results.length < MAX_REQUESTS) {
       fetcher.load("/query-data");
-      // interval.current = setInterval(() => {
-      //   setTimer((prev) => {
-      //     return prev + 10;
-      //   });
-      // }, 10);
-      // setTimer(0);
     } else {
       setFetching(false);
     }
@@ -150,11 +91,8 @@ export default function Index() {
   return (
     <div className="container mx-auto w-full lg:w-1/2 md:w-3/4">
       <Header />
-      <div className="flex justify-between gap-20">
+      <div className="flex justify-between gap-20 mb-4">
         <div className="flex-1">
-          <h1 className="uppercase font-bold tracking-[0.5em] text-lg pt-4">
-            Query Cache
-          </h1>
           <Marketing />
         </div>
         <div className="flex-auto">
@@ -162,43 +100,14 @@ export default function Index() {
             <button
               disabled={fetching}
               onClick={runQueries}
-              className="object-center bg-blue-800 hover:bg-blue-700 disabled:bg-blue-500 text-white font-bold py-2 px-4 rounded w-56 max-w-md"
+              className="py-2 px-4 mb-2 object-center bg-blue-800 hover:bg-blue-700 disabled:bg-blue-500 text-white font-bold rounded w-56 max-w-md"
             >
               {queryButtonText}
             </button>
           </div>
-          {results.map((result, i) => {
-            const maxValue = Math.max(result.direct.total, result.sqc.total);
-
-            return (
-              <div
-                key={i}
-                // className="border rounded border-zinc-400 my-2 p-3 flex flex-row justify-between"
-                className="bg-zinc-900 rounded my-2 p-3 flex flex-row justify-between"
-              >
-                <div className="grow">
-                  <LatencyBar2
-                    totalMs={result.direct.total}
-                    maxValue={maxValue}
-                    label={"Direct to Origin"}
-                    color="zinc-600"
-                  />
-                  <LatencyBar2
-                    totalMs={result.sqc.total}
-                    maxValue={maxValue}
-                    label={"Query Cache"}
-                    color="orange-600"
-                  />
-                  {formatMultiplier(result.sqc.total, result.direct.total)}
-
-                  {/* hack for fancy tailwind color optimizer */}
-                  <span className="bg-orange-600" />
-                  <span className="bg-zinc-600" />
-                  <span className="opacity-0" />
-                </div>
-              </div>
-            );
-          })}
+          {results.map((result, i) => (
+            <RunResult key={i} result={result} />
+          ))}
         </div>
       </div>
     </div>
