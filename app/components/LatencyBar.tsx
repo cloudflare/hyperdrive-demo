@@ -32,20 +32,20 @@ export const LatencyBar = ({ totalMs, maxValue, label, color }: Props) => {
     <div className="mb-2">
       <div className="flex justify-items-start">
         <div
-          className={`bg-${color} rounded mb-2 flex justify-between items-center`}
+          className={`bg-${color} text-slate-50 rounded mb-2 flex justify-between items-center`}
           style={{
             width: `${width}%`,
             height: "30px",
           }}
         >
-          <div className="text-sm text-white p-1 ml-2">
+          <div className="text-sm p-1 ml-2">
             {totalMs}
             <span className="ml-1">ms</span>
           </div>
           <div
             className={`transition-opacity opacity-${
               labelVisible ? 100 : 0
-            } text-xs text-white font-bold mr-2`}
+            } text-xs mr-2`}
           >
             {label}
           </div>
@@ -70,7 +70,7 @@ export const LatencyBar2 = ({ totalMs, maxValue, label, color }: Props) => {
             transformOrigin: "0% 50%",
           }}
         >
-          <div className="text-sm text-white p-1 ml-2">
+          <div className="text-sm text-slate-400 p-1 ml-2">
             {totalMs}
             <span className="ml-1">ms</span>
           </div>

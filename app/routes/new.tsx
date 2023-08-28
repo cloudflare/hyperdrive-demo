@@ -4,7 +4,7 @@ import type { LatencyResponse } from "./query-data";
 import { LatencyBar } from "~/components/LatencyBar";
 import { formatMultiplier } from "~/utils";
 import { Header } from "~/components/Header";
-import { RunResult } from "~/components/RunResult";
+import { RunResult, RunResult2 } from "~/components/RunResult";
 
 // We should automatically refresh a limited number of times.
 const REFRESH_INTERVAL_MS = 1 * 1000;
