@@ -32,7 +32,7 @@ export const LatencyBar = ({ totalMs, maxValue, label, color }: Props) => {
     <div className="mb-2">
       <div className="flex justify-items-start">
         <div
-          className={`bg-${color} text-slate-50 rounded mb-2 flex justify-between items-center`}
+          className={`bg-${color} text-slate-50 rounded mb-2 flex justify-between items-baseline`}
           style={{
             width: `${width}%`,
             height: "30px",
@@ -43,7 +43,7 @@ export const LatencyBar = ({ totalMs, maxValue, label, color }: Props) => {
             <span className="ml-1">ms</span>
           </div>
           <div
-            className={`transition-opacity opacity-${
+            className={`transition-opacity whitespace-nowrap overflow-hidden text-ellipsis opacity-${
               labelVisible ? 100 : 0
             } text-xs mr-2`}
           >

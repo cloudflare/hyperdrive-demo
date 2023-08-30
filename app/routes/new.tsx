@@ -16,25 +16,25 @@ const Marketing = () => {
   return (
     <>
       <h1 className="uppercase font-bold tracking-[0.5em] text-lg">
-        Query Cache
+        Hyperdrive
       </h1>
       <div>
         <p className="text-xl pt-4 font-light">
           Makes your regional database feel like it's globally distributed
         </p>
         <p className="text-sm pt-4 font-light">
-          Cloudflare Query Cache is an upcoming product that allows developers
-          to cache database reads (responses) within Cloudflare, directly
-          improving performance for subsequent reads and reducing load (and
-          cost) on their database.
+          Cloudflare Hyperdrive is an upcoming product that allows developers to
+          cache database reads (responses) within Cloudflare, directly improving
+          performance for subsequent reads and reducing load (and cost) on their
+          database.
         </p>
         <p className="text-sm pt-4 font-light">
-          SQC is not itself a hosted database solution, but enables developers
-          to build applications on top of Cloudflare Workers against their
-          existing databases without paying the "price" of connecting back to a
-          centralized (regional) database for every query. In other words: we
-          make it easy for developers to accelerate their existing databases via
-          Cloudflare's global network.
+          Hyperdrive is not itself a hosted database solution, but enables
+          developers to build applications on top of Cloudflare Workers against
+          their existing databases without paying the "price" of connecting back
+          to a centralized (regional) database for every query. In other words:
+          we make it easy for developers to accelerate their existing databases
+          via Cloudflare's global network.
         </p>
         <p className="text-sm pt-4 font-light">
           This paragraph explains what all the stuff on the right means. There's
@@ -89,13 +89,15 @@ export default function Index() {
   }, []);
 
   return (
-    <div className="container mx-auto w-full lg:w-1/2 md:w-3/4">
+    <div className="container mx-auto w-full md:w-3/4 xl:w-1/2">
       <Header />
-      <div className="flex justify-between gap-20 mb-4">
+      <div className="flex flex-wrap-reverse justify-between gap-20 md:gap-10 mb-4">
+        {/* <div className="flex-1"> */}
         <div className="flex-1">
           <Marketing />
         </div>
-        <div className="flex-auto">
+        {/* <div className="flex-auto"> */}
+        <div className="flex-1 min-w-[350px]">
           <div className="flex justify-center mb-2">
             <button
               disabled={fetching}

@@ -22,9 +22,9 @@ export const meta: V2_MetaFunction = ({ matches, location, params, data }) => {
   return [
     {
       charSet: "utf-8",
-      title: "Cloudflare Query Cache x Remix",
+      title: "Cloudflare Hyperdrive Demo",
       description:
-        "A demo app that uses Cloudflare Query Cache to dramatically speed up database access.",
+        "A demo app that uses Cloudflare Hyperdrive to dramatically speed up database access.",
     },
   ];
 };
@@ -42,13 +42,17 @@ export default function App() {
       </head>
       {/* <body className="bg-slate-200"> */}
       {/* <body className="bg-gradient-to-b from-[#ffffff] dark:from-[#000000] from-15% to-[#ECF4FF] dark:to-[#1D1D1D] to-80%"> */}
-      <body className="bg-gradient-to-b from-white dark:from-black to-sky-100 dark:to-zinc-900 h-screen">
-        <main className="h-screen text-black dark:text-white p-8">
-          <Outlet />
-          <ScrollRestoration />
-          <Scripts />
-          <LiveReload />
-        </main>
+      <body>
+        <div className="bg-sky-100 dark:bg-zinc-900 overflow-auto">
+          <div className="bg-gradient-to-b from-white dark:from-black to-sky-100 dark:to-zinc-900 h-screen">
+            <main className="h-screen text-black dark:text-white p-8">
+              <Outlet />
+              <ScrollRestoration />
+              <Scripts />
+              <LiveReload />
+            </main>
+          </div>
+        </div>
       </body>
     </html>
   );
