@@ -20,27 +20,13 @@ const Marketing = () => {
       </h1>
       <div>
         <p className="text-xl pt-4 font-light">
-          Makes your regional database feel like it's globally distributed
+          Turns your existing regional databases into a globally distributed ones.
         </p>
         <p className="text-sm pt-4 font-light">
-          Cloudflare Hyperdrive is an upcoming product that allows developers to
-          cache database reads (responses) within Cloudflare, directly improving
-          performance for subsequent reads and reducing load (and cost) on their
-          database.
+          Hyperdrive accelerates the queries you make to databases you already have, making it faster to access your data from across the planet, no matter where your users are. Hyperdrive supports any Postgres database, including those hosted on AWS, Google Cloud and Neon, as well as Postgres-compatible databases like CockroachDB and Timescale. You can also still use your existing Postgres drivers and your favorite ORM libraries without any changes: Hyperdrive gives you a connection string that looks just like any other. No need to write new code or replace your favorite tools: Hyperdrive works with the ones you already use.
         </p>
         <p className="text-sm pt-4 font-light">
-          Hyperdrive is not itself a hosted database solution, but enables
-          developers to build applications on top of Cloudflare Workers against
-          their existing databases without paying the "price" of connecting back
-          to a centralized (regional) database for every query. In other words:
-          we make it easy for developers to accelerate their existing databases
-          via Cloudflare's global network.
-        </p>
-        <p className="text-sm pt-4 font-light">
-          This paragraph explains what all the stuff on the right means. There's
-          some technical jargon but basically the one on top requests directly
-          from the origin. The one on the bottom is the good one because it uses
-          query cache. Just rambling here to make up more words.
+          By maintaining a connection pool to your database within Cloudflare's network, we cut out what can typically be over six round-trips to your database before you can even issue a query: the TCP handshake (3x), TLS negotiation (2-3x) and database authentication (1x). On top of that, Hyperdrive understands the difference between read and write queries to your database, and can intelligently cache the most common read queries made: improving both query performance <i>and</i> reducing load on your origin database.
         </p>
       </div>
     </>
