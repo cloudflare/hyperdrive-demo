@@ -13,7 +13,7 @@ export const formatMultiplier = (sqc?: number, direct?: number) => {
     m = sqc / direct;
     return (
       <div className="text-xs">
-        Using Cloudflare Query Cache is
+        Using Cloudflare Hyperdrive is
         <span className="text-sm font-bold text-red-500 ml-1">
           {m.toPrecision(2)}x slower
         </span>
@@ -24,7 +24,7 @@ export const formatMultiplier = (sqc?: number, direct?: number) => {
   if (m === 1) {
     return (
       <div className="text-xs">
-        Using Cloudflare Query Cache is
+        Using Cloudflare Hyperdrive is
         <span className="text-sm font-bold text-blue-400 ml-1">
           the same speed
         </span>
@@ -34,7 +34,7 @@ export const formatMultiplier = (sqc?: number, direct?: number) => {
 
   return (
     <div className="text-xs">
-      Using Cloudflare Query Cache is
+      Using Cloudflare Hyperdrive is
       <span className="text-sm font-bold text-green-500 ml-1">
         {m.toPrecision(2)}x faster
       </span>
