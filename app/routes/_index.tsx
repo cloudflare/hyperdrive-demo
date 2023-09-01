@@ -1,117 +1,127 @@
 import { useFetcher, useRevalidator } from "@remix-run/react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { LatencyResponse } from "./query-data";
+import { LatencyBar } from "~/components/LatencyBar";
+import { formatMultiplier } from "~/utils";
+import { Header } from "~/components/Header";
+import { RunResult, RunResult2 } from "~/components/RunResult";
 
 // We should automatically refresh a limited number of times.
 const REFRESH_INTERVAL_MS = 1 * 1000;
 const MAX_ITERS = 10;
+const MAX_REQUESTS = 4;
 let ITERS = 0;
 
-export const useRefreshOnInterval = (interval: number) => {
-  let { revalidate } = useRevalidator();
-
-  const reval = () => {
-    if (ITERS >= MAX_ITERS) {
-      return;
-    }
-
-    ITERS++;
-    revalidate();
-  };
-
-  useEffect(
-    function onInterval() {
-      let id = setInterval(reval, interval);
-      return () => clearInterval(id);
-    },
-    [revalidate],
+const Marketing = () => {
+  return (
+    <>
+      <h1 className="uppercase font-bold tracking-[0.5em] text-lg">
+        Hyperdrive
+      </h1>
+      <div>
+        <p className="text-xl pt-4 font-light">
+          Turns your existing regional databases into a globally distributed
+          ones.
+        </p>
+        <p className="text-sm pt-4 font-light">
+          Hyperdrive accelerates the queries you make to databases you already
+          have, making it faster to access your data from across the planet, no
+          matter where your users are.
+        </p>
+        <p className="text-sm pt-4 font-light">
+          Hyperdrive supports any Postgres database, including those hosted on
+          AWS, Google Cloud and Neon, as well as Postgres-compatible databases
+          like CockroachDB and Timescale.{" "}
+          <span className="font-bold">
+            You can also still use your existing Postgres drivers and your
+            favorite ORM libraries without any changes
+          </span>
+          : Hyperdrive gives you a connection string that looks just like any
+          other. No need to write new code or replace your favorite tools:
+          Hyperdrive works with the ones you already use.
+        </p>
+        <p className="text-sm pt-4 font-light">
+          By maintaining a connection pool to your database within Cloudflare's
+          network,{" "}
+          <span className="font-bold">
+            Hyperdrive cuts out what can typically be over six round-trips to
+            your database before you can even send a query
+          </span>
+          : the TCP handshake (3x), TLS negotiation (2-3x) and database
+          authentication (1x). On top of that, Hyperdrive understands the
+          difference between read and write queries to your database, and can
+          intelligently cache the most common read queries made: improving both
+          query performance <i>and</i> reducing load on your origin database.
+        </p>
+      </div>
+    </>
   );
-};
-
-const formatMultiplier = (sqc?: number, direct?: number): string => {
-  if (!sqc || !direct) {
-    return "";
-  }
-
-  let m = direct / sqc;
-
-  if (m < 1) {
-    m = sqc / direct;
-    return `${m.toPrecision(2)}x slower`;
-  }
-
-  if (isNaN(m)) {
-    return "N/A";
-  }
-
-  return `${m.toPrecision(2)}x faster`;
 };
 
 export default function Index() {
   const fetcher = useFetcher<LatencyResponse>();
 
-  // Revalidate at a fixed interval
-  useRefreshOnInterval(REFRESH_INTERVAL_MS);
+  const [results, setResults] = useState<LatencyResponse[]>([]);
+  const [fetching, setFetching] = useState(false);
 
-  const queryButtonText =
-    fetcher.state === "submitting" ||
-    fetcher.state === "loading" ||
-    (ITERS < MAX_ITERS && ITERS !== 0)
-      ? "Running Queries..."
-      : "Compare Latency";
+  const queryButtonText = fetching ? "Running Queries..." : "Compare Latency";
 
-  function loadData() {
-    ITERS = 0;
-    fetcher.load("/query-data");
+  function runQueries() {
+    setResults([]);
+    setFetching(true);
   }
 
+  function nextRequest() {
+    if (results.length < MAX_REQUESTS) {
+      fetcher.load("/query-data");
+    } else {
+      setFetching(false);
+    }
+  }
+
+  function finishRequest(data: LatencyResponse) {
+    setResults([...results, data]);
+    // clearInterval(interval.current);
+  }
+
+  useEffect(() => {
+    if (!fetching) return;
+
+    if (fetcher.state === "idle") {
+      if (fetcher.data) {
+        finishRequest(fetcher.data);
+      }
+      nextRequest();
+    }
+  }, [fetcher, fetching]);
+
+  useEffect(() => {
+    runQueries();
+  }, []);
+
   return (
-    <div className="container mx-auto max-w-lg">
-      <div className="grid place-items-center pb-8">
-        <h1 className="uppercase text-center font-extrabold text-2xl pt-4 text-slate-800">
-          Cloudflare Query Cache Demo
-        </h1>
-        <p className="text-center text-md italic pt-2 font-light">
-          Makes your regional database feel like it's globally distributed
-        </p>
-      </div>
-      <div className="grid grid-cols-2 place-content-center justify-items-center items-center h-48 text-center">
-        <div>
-          <h2 className="uppercase font-extrabold text-2xl py-4 text-blue-800">
-            Query Cache
-          </h2>
-          <p className="text-5xl font-bold text-orange-600 place-content-center">
-            {fetcher.data?.sqc?.total || 0} ms
-          </p>
-          <small className="font-medium	block pt-2">
-            Query: {fetcher.data?.sqc?.query || 0} ms
-          </small>
+    <div className="container mx-auto w-full md:w-3/4 xl:w-1/2">
+      <Header />
+      <div className="flex flex-wrap-reverse justify-between gap-20 md:gap-10 mb-4">
+        {/* <div className="flex-1"> */}
+        <div className="flex-1">
+          <Marketing />
         </div>
-        <div>
-          <h2 className="uppercase font-extrabold text-2xl py-4 text-blue-800">
-            Direct
-          </h2>
-          <p className="text-5xl font-bold text-orange-600 place-content-center">
-            {fetcher.data?.direct?.total || 0} ms
-          </p>
-          <small className="font-medium	block pt-2">
-            Query: {fetcher.data?.direct?.query || 0} ms
-          </small>
+        {/* <div className="flex-auto"> */}
+        <div className="flex-1 min-w-[350px]">
+          <div className="flex justify-center mb-2">
+            <button
+              disabled={fetching}
+              onClick={runQueries}
+              className="py-2 px-4 mb-2 object-center bg-blue-800 hover:bg-blue-700 disabled:bg-blue-500 text-white font-bold rounded w-56 max-w-md"
+            >
+              {queryButtonText}
+            </button>
+          </div>
+          {results.map((result, i) => (
+            <RunResult key={i} result={result} />
+          ))}
         </div>
-      </div>
-      <div className="grid grid-cols-1 gap-4 place-content-center justify-items-center items-center pt-12 h-12">
-        <p className="font-medium text-2xl h-8">
-          {formatMultiplier(
-            fetcher.data?.sqc?.total,
-            fetcher.data?.direct?.total,
-          )}
-        </p>
-        <button
-          onClick={loadData}
-          className="object-center bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-56 max-w-md"
-        >
-          {queryButtonText}
-        </button>
       </div>
     </div>
   );
