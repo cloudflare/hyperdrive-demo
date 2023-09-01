@@ -20,13 +20,13 @@ export const RunResult = ({ key, result }: Props) => {
         <LatencyBar
           totalMs={result.direct.total}
           maxValue={maxValue}
-          label={"Direct to Origin"}
+          label={"direct to origin database"}
           color="zinc-600"
         />
         <LatencyBar
           totalMs={result.sqc.total}
           maxValue={maxValue}
-          label={"Hyperdrive"}
+          label={"with Hyperdrive"}
           color="orange-600"
         />
         {formatMultiplier(result.sqc.total, result.direct.total)}
