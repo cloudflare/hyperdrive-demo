@@ -20,7 +20,7 @@ const Marketing = () => {
       </h1>
       <div>
         <p className="text-xl pt-4 font-light">
-          Turns your existing regional databases into a globally distributed
+          Turns your existing regional databases into globally distributed
           ones.
         </p>
         <p className="text-sm pt-4 font-light">
