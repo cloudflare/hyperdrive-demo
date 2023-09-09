@@ -102,7 +102,7 @@ export default function Index() {
   return (
     <div className="container mx-auto w-full md:w-3/4 xl:w-1/2">
       <Header />
-      <div className="flex flex-wrap-reverse justify-between gap-20 md:gap-10 mb-4">
+      <div className="flex flex-wrap-reverse justify-between gap-20 md:gap-10 mb-4 pb-12">
         {/* <div className="flex-1"> */}
         <div className="flex-1">
           <Marketing />
