@@ -24,7 +24,7 @@ export const meta: V2_MetaFunction = ({ matches, location, params, data }) => {
       charSet: "utf-8",
       title: "Cloudflare Hyperdrive Demo",
       description:
-        "A demo app that uses Cloudflare Hyperdrive to dramatically speed up database access.",
+        "Hyperdrive makes your existing regional databases feel like they're globally distributed.",
     },
   ];
 };

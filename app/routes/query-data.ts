@@ -26,7 +26,7 @@ interface DBResult {
 export async function loader({ params }: LoaderArgs) {
   let resp = await fetch("https://sqc-demo.silverlock.workers.dev/");
   if (!resp.ok) {
-    console.error(`failed to fetch SQC data: ${resp.status}`);
+    console.error(`failed to fetch Hyperdrive data: ${resp.status}`);
     return json({ err: "failed to fetch" }, { status: 500 });
   }
 

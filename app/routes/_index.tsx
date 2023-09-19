@@ -53,6 +53,15 @@ const Marketing = () => {
           intelligently cache the most common read queries made: improving both
           query performance <i>and</i> reducing load on your origin database.
         </p>
+        <p className="text-sm pt-4 font-light">
+          The benchmarks to the right compare a default Hyperdrive configuration
+          with a direct connection to a [Neon](https://neon.tech/) database. The
+          endpoint selected is based on your continent: to demonstrate Hyperdrive's
+          performance, a (Hyperdrive, direct-to-database) pair is selected from the
+          neighboring continent. For example, EU clients will connect to a US database.
+          The raw results are returned from each run: there are no averages or carefully
+          selected results, nor do we prune or remove any results we don't like.
+        </p>
       </div>
     </>
   );
