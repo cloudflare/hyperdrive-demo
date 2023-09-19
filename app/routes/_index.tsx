@@ -16,10 +16,10 @@ const Marketing = () => {
   return (
     <>
       <h1 className="uppercase font-bold tracking-[0.5em] text-lg">
-        Hyperdrive
+        <a href="https://developers.cloudflare.com/hyperdrive/">Hyperdrive</a>
       </h1>
       <div>
-        <p className="text-xl pt-4 font-light">
+        <p className="text-2xl pt-4 font-light">
           Turns your existing regional databases into globally distributed ones.
         </p>
         <p className="text-sm pt-4 font-light">
@@ -32,11 +32,11 @@ const Marketing = () => {
           AWS, Google Cloud and Neon, as well as Postgres-compatible databases
           like CockroachDB and Timescale.{" "}
           <span className="font-bold">
-            You can also still use your existing Postgres drivers and your
-            favorite ORM libraries without any changes
+            The best part? You can bringing your favorite Postgres drivers and
+            ORM libraries without any changes: Hyperdrive gives you a connection
+            string that looks just like any other.
           </span>
-          : Hyperdrive gives you a connection string that looks just like any
-          other. No need to write new code or replace your favorite tools:
+           No need to write new code or replace your favorite tools:
           Hyperdrive works with the ones you already use.
         </p>
         <p className="text-sm pt-4 font-light">
@@ -53,14 +53,18 @@ const Marketing = () => {
           query performance <i>and</i> reducing load on your origin database.
         </p>
         <p className="text-sm pt-4 font-light">
-          The benchmarks to the right compare a default Hyperdrive configuration
-          with a direct connection to a <a href="https://neon.tech/">Neon</a> 
-          database. To show how Hyperdrive makes regional databases (way)
-          faster, a (Hyperdrive, direct-to-database) pair is selected from a
-          neighboring continent. For example, EU clients will connect to a US
-          database. The raw results are returned from each run: there are no
-          averages or carefully selected results, nor do we prune or remove any
-          results we don't like.
+          Want to get started? <a className="font-bold"
+          href="https://developers.cloudflare.com/hyperdrive/">Visit our docs</a>.
+        </p>
+        <p className="text-sm pt-5 font-light italic">
+          The benchmarks on this page compare a default Hyperdrive configuration
+          against a direct connection to the same Neon PostgreSQL database. To show
+          how Hyperdrive makes querying regional databases perform like they're
+          global, a Hyperdrive and direct database pair is selected from a
+          neighboring continent: a user in Europe will connect to the US, and
+          user in Africa to Europe (and so on). The raw results are returned
+          from each run: there are no averages or carefully selected results,
+          nor do we prune or remove any results we don't like.
         </p>
       </div>
     </>
