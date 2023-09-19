@@ -20,8 +20,7 @@ const Marketing = () => {
       </h1>
       <div>
         <p className="text-xl pt-4 font-light">
-          Turns your existing regional databases into globally distributed
-          ones.
+          Turns your existing regional databases into globally distributed ones.
         </p>
         <p className="text-sm pt-4 font-light">
           Hyperdrive accelerates the queries you make to databases you already
@@ -55,8 +54,8 @@ const Marketing = () => {
         </p>
         <p className="text-sm pt-4 font-light">
           The benchmarks to the right compare a default Hyperdrive configuration
-          with a direct connection to a<a href="https://neon.tech/">Neon</a>
-           database.  To show how Hyperdrive makes regional databases (way)
+          with a direct connection to a <a href="https://neon.tech/">Neon</a> 
+          database. To show how Hyperdrive makes regional databases (way)
           faster, a (Hyperdrive, direct-to-database) pair is selected from a
           neighboring continent. For example, EU clients will connect to a US
           database. The raw results are returned from each run: there are no
