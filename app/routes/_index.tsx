@@ -43,11 +43,11 @@ const Marketing = () => {
           By maintaining a connection pool to your database within Cloudflare's
           network,{" "}
           <span className="font-bold">
-            Hyperdrive cuts out what can typically be over six round-trips to
-            your database before you can even send a query
+            Hyperdrive cuts out what is typically seven round-trips to your
+            database before you can even send a query
           </span>
-          : the TCP handshake (3x), TLS negotiation (2-3x) and database
-          authentication (1x). On top of that, Hyperdrive understands the
+          : the TCP handshake (1x), TLS negotiation (3x) and database
+          authentication (3x). On top of that, Hyperdrive understands the
           difference between read and write queries to your database, and can
           intelligently cache the most common read queries made: improving both
           query performance <i>and</i> reducing load on your origin database.
