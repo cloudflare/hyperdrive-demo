@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const RunResult = ({ key, result }: Props) => {
-  const maxValue = Math.max(result.direct.total, result.sqc.total);
+  const maxValue = Math.max(result.direct.total, result.hyperdrive.total);
 
   return (
     <div
@@ -24,12 +24,12 @@ export const RunResult = ({ key, result }: Props) => {
           color="zinc-600"
         />
         <LatencyBar
-          totalMs={result.sqc.total}
+          totalMs={result.hyperdrive.total}
           maxValue={maxValue}
           label={"with Hyperdrive"}
           color="orange-600"
         />
-        {formatMultiplier(result.sqc.total, result.direct.total)}
+        {formatMultiplier(result.hyperdrive.total, result.direct.total)}
 
         {/* hack for fancy tailwind color optimizer */}
         <span className="bg-orange-600" />
@@ -41,7 +41,7 @@ export const RunResult = ({ key, result }: Props) => {
 };
 
 export const RunResult2 = ({ key, result }: Props) => {
-  const maxValue = Math.max(result.direct.total, result.sqc.total);
+  const maxValue = Math.max(result.direct.total, result.hyperdrive.total);
 
   return (
     <div
@@ -56,12 +56,12 @@ export const RunResult2 = ({ key, result }: Props) => {
           color="zinc-600"
         />
         <LatencyBar
-          totalMs={result.sqc.total}
+          totalMs={result.hyperdrive.total}
           maxValue={maxValue}
           label={"with Hyperdrive"}
           color="orange-600"
         />
-        {formatMultiplier(result.sqc.total, result.direct.total)}
+        {formatMultiplier(result.hyperdrive.total, result.direct.total)}
 
         {/* hack for fancy tailwind color optimizer */}
         <span className="bg-orange-600" />

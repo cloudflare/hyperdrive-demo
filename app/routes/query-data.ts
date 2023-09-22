@@ -1,18 +1,19 @@
 import { json, type LoaderArgs } from "@remix-run/cloudflare";
 
+const BENCHMARK_URL = "https://hyperdrive-benchmarks.silverlock.workers.dev";
+
+export interface QueryResult {
+  query: number;
+  total: number;
+}
+
 export interface LatencyResponse {
-  sqc: {
-    query: number;
-    total: number;
-  };
-  direct: {
-    query: number;
-    total: number;
-  };
+  hyperdrive: QueryResult;
+  direct: QueryResult;
 }
 
 interface QueryAPIResponse {
-  sqc: DBResult;
+  hyperdrive: DBResult;
   direct: DBResult;
 }
 
@@ -23,8 +24,8 @@ interface DBResult {
   rows: any;
 }
 
-export async function loader({ params }: LoaderArgs) {
-  let resp = await fetch("https://sqc-demo.silverlock.workers.dev/");
+export async function loader({ context, params }: LoaderArgs) {
+  let resp = await fetch(BENCHMARK_URL);
   if (!resp.ok) {
     console.error(`failed to fetch Hyperdrive data: ${resp.status}`);
     return json({ err: "failed to fetch" }, { status: 500 });
@@ -32,9 +33,9 @@ export async function loader({ params }: LoaderArgs) {
 
   let data: QueryAPIResponse = await resp.json();
   let latencies: LatencyResponse = {
-    sqc: {
-      query: data.sqc.queryLatencyMs,
-      total: data.sqc.totalLatencyMs,
+    hyperdrive: {
+      query: data.hyperdrive.queryLatencyMs,
+      total: data.hyperdrive.totalLatencyMs,
     },
     direct: {
       query: data.direct.queryLatencyMs,
@@ -48,11 +49,11 @@ export async function loader({ params }: LoaderArgs) {
 // FOR DEV ONLY
 // export async function loader({ params }: LoaderArgs) {
 //   const query = Math.floor(Math.random() * 150);
-// 
+//
 //   await sleep(Math.random() * 1000 + 200);
-// 
+//
 //   const latencies: LatencyResponse = {
-//     sqc: {
+//     hyperdrive: {
 //       query,
 //       total: query + Math.floor(Math.random() * 400) + 75,
 //     },
@@ -61,7 +62,7 @@ export async function loader({ params }: LoaderArgs) {
 //       total: query + Math.floor(Math.random() * 700) + 75,
 //     },
 //   };
-// 
+//
 //   return json(latencies);
 // }
 
