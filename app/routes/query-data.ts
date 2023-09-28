@@ -1,6 +1,7 @@
 import { json, type LoaderArgs } from "@remix-run/cloudflare";
 
-const BENCHMARK_URL = "https://hyperdrive-benchmarks.silverlock.workers.dev";
+const BENCHMARK_URL =
+  "https://hyperdrive-benchmarks.silverlock.workers.dev/?from=demo";
 
 export interface QueryResult {
   query: number;
@@ -28,7 +29,7 @@ export async function loader({ context, params }: LoaderArgs) {
   let resp = await fetch(BENCHMARK_URL);
   if (!resp.ok) {
     console.error(`failed to fetch Hyperdrive data: ${resp.status}`);
-    return json({ err: "failed to fetch" }, { status: 500 });
+    return json({}, { status: 500 });
   }
 
   let data: QueryAPIResponse = await resp.json();

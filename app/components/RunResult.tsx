@@ -8,7 +8,9 @@ type Props = {
 };
 
 export const RunResult = ({ key, result }: Props) => {
-  const maxValue = Math.max(result.direct.total, result.hyperdrive.total);
+  let hyperdriveTotal = result.hyperdrive.total || 0;
+  let directTotal = result.direct.total || 0;
+  const maxValue = Math.max(directTotal, hyperdriveTotal);
 
   return (
     <div
@@ -18,18 +20,18 @@ export const RunResult = ({ key, result }: Props) => {
     >
       <div className="grow">
         <LatencyBar
-          totalMs={result.direct.total}
+          totalMs={directTotal}
           maxValue={maxValue}
           label={"direct to origin database"}
           color="zinc-600"
         />
         <LatencyBar
-          totalMs={result.hyperdrive.total}
+          totalMs={hyperdriveTotal}
           maxValue={maxValue}
           label={"with Hyperdrive"}
           color="orange-600"
         />
-        {formatMultiplier(result.hyperdrive.total, result.direct.total)}
+        {formatMultiplier(hyperdriveTotal, directTotal)}
 
         {/* hack for fancy tailwind color optimizer */}
         <span className="bg-orange-600" />
