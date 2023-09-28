@@ -32,11 +32,11 @@ const Marketing = () => {
           AWS, Google Cloud and Neon, as well as Postgres-compatible databases
           like CockroachDB and Timescale.{" "}
           <span className="font-bold">
-            The best part? You can bringing your favorite Postgres drivers and
+            The best part? You can bring your favorite Postgres drivers and
             ORM libraries without any changes: Hyperdrive gives you a connection
-            string that looks just like any other.
+            string that looks just like any other. 
           </span>
-           No need to write new code or replace your favorite tools:
+          &nbsp;No need to write new code or replace your favorite tools:
           Hyperdrive works with the ones you already use.
         </p>
         <p className="text-sm pt-4 font-light">
