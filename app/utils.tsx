@@ -15,7 +15,7 @@ export const formatMultiplier = (sqc?: number, direct?: number) => {
       <div className="text-xs">
         Using Cloudflare Hyperdrive is
         <span className="text-sm font-bold text-red-500 ml-1">
-          {m.toPrecision(2)}x slower
+          {m.toPrecision(3)}x slower
         </span>
       </div>
     );
@@ -36,7 +36,7 @@ export const formatMultiplier = (sqc?: number, direct?: number) => {
     <div className="text-xs">
       Using Cloudflare Hyperdrive is
       <span className="text-sm font-bold text-green-500 ml-1">
-        {m.toPrecision(2)}x faster
+        {m.toPrecision(3)}x faster
       </span>
     </div>
   );
